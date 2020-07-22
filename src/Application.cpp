@@ -299,7 +299,7 @@ void Application::draw(unsigned int left, unsigned int top, unsigned int width, 
 		else
 		{
 			attron(COLOR_PAIR(color));
-			mvprintw(top + y + 1, left, "%s", entry.path().filename().c_str());
+			mvprintw(top + y + 1, left + 1, "%s", entry.path().filename().c_str());
 		}
 
 		attroff(COLOR_PAIR(color));
