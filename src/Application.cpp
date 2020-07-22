@@ -11,6 +11,7 @@ Application::Application(const std::vector<std::string> &options)
 	mScrollV = 0;
 	mHelp = false;
 	mVersion = false;
+	mRotate = false;
 
 	parse(options);
 
@@ -113,6 +114,10 @@ void Application::parse(const std::vector<std::string> &options)
 			mMax = std::filesystem::absolute(std::filesystem::canonical(arg2));
 			++i;
 		}
+		else if (arg1 == "-r")
+		{
+			mRotate = true;
+		}
 		else
 		{
 			std::filesystem::path path = arg1;
@@ -145,6 +150,7 @@ void Application::usage()
 	std::cout << "Options:\n";
 	std::cout << "  -h   Print this and quit\n";
 	std::cout << "  -m   Max parent height\n";
+	std::cout << "  -r   Rotate index when going out of bounds\n";
 	std::cout << "  -v   Print version and quit\n";
 	std::cout << "\n";
 	std::cout << "Navigation:\n";
@@ -205,17 +211,17 @@ void Application::enter()
 
 void Application::up()
 {
-	if (mIndex == 0)
-		mIndex = mEntries.size() - 1;
-	else
+	if (mIndex != 0)
 		--mIndex;
+	else if (mRotate)
+		mIndex = mEntries.size() - 1;
 }
 
 void Application::down()
 {
 	if (mIndex < mEntries.size() - 1)
 		++mIndex;
-	else
+	else if (mRotate)
 		mIndex = 0;
 }
 

@@ -46,6 +46,8 @@ private:
 	bool mHelp;
 	bool mVersion;
 
+	bool mRotate;
+
 	// Current working directory. Will change during navigation.
 	std::filesystem::directory_entry mCWD;
 

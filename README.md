@@ -54,6 +54,7 @@ Interactive filesystem browser that prints the entry's absolute path
 Options:
   -h   Print this and quit
   -m   Max parent height
+  -r   Rotate index when going out of bounds
   -v   Print version and quit
 
 Navigation:
