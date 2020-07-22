@@ -244,8 +244,8 @@ void Application::left()
 	}
 	else
 	{
-		// Don't reset index if we cannot go further back.
-		if (mCWD.path() == mMax)
+		// Reset index only if we can go back into parent directory.
+		if (mCWD.path() != mMax)
 			mIndex = 0;
 	}
 
