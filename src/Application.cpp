@@ -9,6 +9,8 @@ Application::Application(const std::vector<std::string> &options)
 	mMax = std::filesystem::current_path().root_path();
 	mIndex = 0;
 	mScrollV = 0;
+	mHelp = false;
+	mVersion = false;
 
 	parse(options);
 
