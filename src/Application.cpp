@@ -181,6 +181,7 @@ void Application::input(int ch)
 		mRunning = false;
 		break;
 	// Go up in list.
+	case 'k':
 	case KEY_UP:
 		if (mIndex == 0)
 			mIndex = mEntries.size() - 1;
@@ -188,6 +189,7 @@ void Application::input(int ch)
 			--mIndex;
 		break;
 	// Go down in list.
+	case 'j':
 	case KEY_DOWN:
 		if (mIndex < mEntries.size() - 1)
 			++mIndex;
@@ -195,6 +197,7 @@ void Application::input(int ch)
 			mIndex = 0;
 		break;
 	// Return to parent entry.
+	case 'h':
 	case KEY_LEFT:
 		if (!mIndicies.empty())
 		{
@@ -220,6 +223,7 @@ void Application::input(int ch)
 		}
 		break;
 	// Enter into entry if it's a directory.
+	case 'l':
 	case KEY_RIGHT:
 		if (!mEntries.empty() && mEntries.at(mIndex).is_directory())
 		{
