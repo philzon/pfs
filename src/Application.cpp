@@ -237,6 +237,9 @@ void Application::down()
 
 void Application::left()
 {
+	if (mCWD.path() == mMax || mCWD.path() == mCWD.path().parent_path())
+		return;
+
 	if (!mIndicies.empty())
 	{
 		mIndex = mIndicies.back();
@@ -244,17 +247,11 @@ void Application::left()
 	}
 	else
 	{
-		// Reset index only if we can go back into parent directory.
-		if (mCWD.path() != mMax)
-			mIndex = 0;
+		mIndex = 0;
 	}
 
-	// Only step back into parent directory if we can go further back.
-	if (mCWD.path() != mMax)
-	{
-		mCWD = std::filesystem::directory_entry(mCWD.path().parent_path());
-		mEntries = list(mCWD);
-	}
+	mCWD = std::filesystem::directory_entry(mCWD.path().parent_path());
+	mEntries = list(mCWD);
 }
 
 void Application::right()
