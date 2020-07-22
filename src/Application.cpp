@@ -27,7 +27,6 @@ Application::Application(const std::vector<std::string> &options)
 	// Colors are forced for interactivity.
 	if (!has_colors())
 	{
-		endwin();
 		std::cout << "Your terminal does not support colors\n";
 		mRunning = false;
 
