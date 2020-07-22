@@ -1,6 +1,7 @@
 #ifndef APPLICATION_HPP
 #define APPLICATION_HPP
 
+#include <algorithm>
 #include <filesystem>
 #include <iostream>
 #include <string>
@@ -35,6 +36,8 @@ private:
 	void left();
 	void right();
 	void draw(unsigned int left, unsigned int top, unsigned int width, unsigned int height);
+	std::vector<std::filesystem::directory_entry> list(const std::filesystem::path &path);
+	static bool comp(std::filesystem::directory_entry e1, std::filesystem::directory_entry e2);
 
 	// Application state - running or not.
 	bool mRunning;

@@ -68,10 +68,7 @@ int Application::run()
 	if (mHelp || mVersion)
 		return 0;
 
-	mEntries.clear();
-
-	for (const std::filesystem::directory_entry &entry: std::filesystem::directory_iterator(mCWD))
-		mEntries.push_back(entry);
+	mEntries = list(mCWD);
 
 	while (mRunning)
 	{
@@ -238,11 +235,7 @@ void Application::left()
 	if (mCWD.path() != mMax)
 	{
 		mCWD = std::filesystem::directory_entry(mCWD.path().parent_path());
-
-		mEntries.clear();
-
-		for (const std::filesystem::directory_entry &entry: std::filesystem::directory_iterator(mCWD))
-			mEntries.push_back(entry);
+		mEntries = list(mCWD);
 	}
 }
 
@@ -253,11 +246,7 @@ void Application::right()
 		mIndicies.push_back(mIndex);
 		mCWD = mEntries.at(mIndex);
 		mIndex = 0;
-
-		mEntries.clear();
-
-		for (const std::filesystem::directory_entry &entry: std::filesystem::directory_iterator(mCWD))
-			mEntries.push_back(entry);
+		mEntries = list(mCWD);
 	}
 }
 
@@ -310,4 +299,39 @@ void Application::draw(unsigned int left, unsigned int top, unsigned int width, 
 
 		attroff(COLOR_PAIR(color));
 	}
+}
+
+std::vector<std::filesystem::directory_entry> Application::list(const std::filesystem::path &path)
+{
+	std::vector<std::filesystem::directory_entry> unsorted;
+
+	for (const std::filesystem::directory_entry &entry: std::filesystem::directory_iterator(path))
+		unsorted.push_back(entry);
+
+	std::vector<std::filesystem::directory_entry> directories;
+
+	for (const std::filesystem::directory_entry &entry: unsorted)
+		if (entry.is_directory())
+			directories.push_back(entry);
+
+	std::vector<std::filesystem::directory_entry> files;
+
+	for (const std::filesystem::directory_entry &entry: unsorted)
+		if (!entry.is_directory())
+			files.push_back(entry);
+
+	unsorted = std::vector<std::filesystem::directory_entry>();
+
+	std::sort(directories.begin(), directories.end(), Application::comp);
+	std::sort(files.begin(), files.end(), Application::comp);
+
+	std::vector<std::filesystem::directory_entry> entries = directories;
+	entries.insert(entries.end(), files.begin(), files.end());
+
+	return entries;
+}
+
+bool Application::comp(std::filesystem::directory_entry e1, std::filesystem::directory_entry e2)
+{
+	return e1.path().string() < e2.path().string();
 }
