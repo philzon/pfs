@@ -52,6 +52,7 @@ Usage: pfs [OPTIONS] [PATH]
 Interactive filesystem browser that prints the entry's absolute path
 
 Options:
+  -c   Enable colors
   -h   Print this and quit
   -m   Max parent height
   -r   Rotate index when going out of bounds

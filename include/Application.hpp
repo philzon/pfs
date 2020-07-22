@@ -46,6 +46,7 @@ private:
 	bool mHelp;
 	bool mVersion;
 
+	bool mColor;
 	bool mRotate;
 
 	// Current working directory. Will change during navigation.

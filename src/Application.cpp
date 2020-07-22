@@ -12,6 +12,7 @@ Application::Application(const std::vector<std::string> &options)
 	mHelp = false;
 	mVersion = false;
 	mRotate = false;
+	mColor = false;
 
 	parse(options);
 
@@ -27,22 +28,24 @@ Application::Application(const std::vector<std::string> &options)
 	noecho();
 	curs_set(0);
 
-	// Colors are forced for interactivity.
-	if (!has_colors())
+	if (mColor)
 	{
-		std::cout << "Your terminal does not support colors\n";
-		mRunning = false;
+		if (!has_colors())
+		{
+			std::cout << "Your terminal does not support colors\n";
+			mRunning = false;
 
-		return;
+			return;
+		}
+
+		// Initialize needed colors.
+		start_color();
+		use_default_colors();
+		init_color(COLOR_WHITE, 1000, 1000, 1000); // Overrides default terminal color setting.
+		init_pair(1, COLOR_BLACK, COLOR_WHITE); // Selected entry.
+		init_pair(2, COLOR_BLACK, COLOR_BLUE); // Selected entry (directory).
+		init_pair(3, COLOR_BLUE, -1); // Non-selected entry (directory).
 	}
-
-	// Initialize needed colors.
-	start_color();
-	use_default_colors();
-	init_color(COLOR_WHITE, 1000, 1000, 1000); // Overrides default terminal color setting.
-	init_pair(1, COLOR_BLACK, COLOR_WHITE); // Selected entry.
-	init_pair(2, COLOR_BLACK, COLOR_BLUE); // Selected entry (directory).
-	init_pair(3, COLOR_BLUE, -1); // Non-selected entry (directory).
 }
 
 Application::~Application()
@@ -99,7 +102,11 @@ void Application::parse(const std::vector<std::string> &options)
 		if (i + 1 < options.size())
 			arg2 = options.at(i + 1);
 
-		if (arg1 == "-h")
+		if (arg1 == "-c")
+		{
+			mColor = true;
+		}
+		else if (arg1 == "-h")
 		{
 			mHelp = true;
 			mVersion = false;
@@ -148,6 +155,7 @@ void Application::usage()
 	std::cout << "Interactive filesystem browser that prints the entry's absolute path\n";
 	std::cout << "\n";
 	std::cout << "Options:\n";
+	std::cout << "  -c   Enable colors\n";
 	std::cout << "  -h   Print this and quit\n";
 	std::cout << "  -m   Max parent height\n";
 	std::cout << "  -r   Rotate index when going out of bounds\n";
@@ -311,6 +319,9 @@ void Application::draw(unsigned int left, unsigned int top, unsigned int width, 
 		}
 
 		attroff(COLOR_PAIR(color));
+
+		if (!mColor && mScrollV + y == mIndex)
+			mvprintw(top + y + 1, left, ">");
 	}
 }
 
