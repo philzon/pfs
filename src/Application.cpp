@@ -206,6 +206,8 @@ void Application::input(int ch)
 		right();
 		break;
 	case 'r':
+		mEntries = list(mCWD);
+		break;
 	case KEY_RESIZE:
 		break;
 	}
