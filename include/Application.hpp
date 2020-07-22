@@ -29,6 +29,11 @@ private:
 	void usage();
 	void version();
 	void input(int ch);
+	void enter();
+	void up();
+	void down();
+	void left();
+	void right();
 	void draw(unsigned int left, unsigned int top, unsigned int width, unsigned int height);
 
 	// Application state - running or not.

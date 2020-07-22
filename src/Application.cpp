@@ -167,79 +167,97 @@ void Application::version()
 
 void Application::input(int ch)
 {
-	// Handle user input.
 	switch (ch)
 	{
-	// Quit application.
 	case 'q':
 		mRunning = false;
 		break;
-	// RETURN: print selected entry (if empty, selects current working directory).
 	case '\n':
 	case '\r':
-		mSelected = mEntries.empty() ? mCWD : mEntries.at(mIndex).path();
-		mRunning = false;
+		enter();
 		break;
-	// Go up in list.
 	case 'k':
 	case KEY_UP:
-		if (mIndex == 0)
-			mIndex = mEntries.size() - 1;
-		else
-			--mIndex;
+		up();
 		break;
-	// Go down in list.
 	case 'j':
 	case KEY_DOWN:
-		if (mIndex < mEntries.size() - 1)
-			++mIndex;
-		else
-			mIndex = 0;
+		down();
 		break;
-	// Return to parent entry.
 	case 'h':
 	case KEY_LEFT:
-		if (!mIndicies.empty())
-		{
-			mIndex = mIndicies.back();
-			mIndicies.pop_back();
-		}
-		else
-		{
-			// Don't reset index if we cannot go further back.
-			if (mCWD.path() == mMax)
-				mIndex = 0;
-		}
-
-		// Only step back into parent directory if we can go further back.
-		if (mCWD.path() != mMax)
-		{
-			mCWD = std::filesystem::directory_entry(mCWD.path().parent_path());
-
-			mEntries.clear();
-
-			for (const std::filesystem::directory_entry &entry: std::filesystem::directory_iterator(mCWD))
-				mEntries.push_back(entry);
-		}
+		left();
 		break;
-	// Enter into entry if it's a directory.
 	case 'l':
 	case KEY_RIGHT:
-		if (!mEntries.empty() && mEntries.at(mIndex).is_directory())
-		{
-			mIndicies.push_back(mIndex);
-			mCWD = mEntries.at(mIndex);
-			mIndex = 0;
-
-			mEntries.clear();
-
-			for (const std::filesystem::directory_entry &entry: std::filesystem::directory_iterator(mCWD))
-				mEntries.push_back(entry);
-		}
+		right();
 		break;
 	case 'r':
 	case KEY_RESIZE:
 		break;
+	}
+}
+
+void Application::enter()
+{
+	mSelected = mEntries.empty() ? mCWD : mEntries.at(mIndex).path();
+	mRunning = false;
+}
+
+void Application::up()
+{
+	if (mIndex == 0)
+		mIndex = mEntries.size() - 1;
+	else
+		--mIndex;
+}
+
+void Application::down()
+{
+	if (mIndex < mEntries.size() - 1)
+		++mIndex;
+	else
+		mIndex = 0;
+}
+
+void Application::left()
+{
+	if (!mIndicies.empty())
+	{
+		mIndex = mIndicies.back();
+		mIndicies.pop_back();
+	}
+	else
+	{
+		// Don't reset index if we cannot go further back.
+		if (mCWD.path() == mMax)
+			mIndex = 0;
+	}
+
+	// Only step back into parent directory if we can go further back.
+	if (mCWD.path() != mMax)
+	{
+		mCWD = std::filesystem::directory_entry(mCWD.path().parent_path());
+
+		mEntries.clear();
+
+		for (const std::filesystem::directory_entry &entry: std::filesystem::directory_iterator(mCWD))
+			mEntries.push_back(entry);
+	}
+}
+
+void Application::right()
+{
+	if (!mEntries.empty() && mEntries.at(mIndex).is_directory())
+	{
+		mIndicies.push_back(mIndex);
+		mCWD = mEntries.at(mIndex);
+		mIndex = 0;
+
+		mEntries.clear();
+
+		for (const std::filesystem::directory_entry &entry: std::filesystem::directory_iterator(mCWD))
+			mEntries.push_back(entry);
 	}
 }
 
