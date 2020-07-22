@@ -276,7 +276,7 @@ void Application::draw(unsigned int left, unsigned int top, unsigned int width, 
 
 	for (unsigned int y = 0; y < height; ++y)
 	{
-		if (mScrollV + y + 0 > mEntries.size() - 1)
+		if (mScrollV + y> mEntries.size() - 1)
 			break;
 
 		const std::filesystem::directory_entry entry = mEntries.at(mScrollV + y);
