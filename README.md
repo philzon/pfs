@@ -59,13 +59,13 @@ Options:
   -v   Print version and quit
 
 Navigation:
-  Return   Print entry path and quit
-  Up       Select above entry in list
-  Down     Select below entry in list
-  Left     Step into directory
-  Right    Step back to parent directory
-  Q        Quit without printing anything
-  R        Refresh entry list
+  Return     Print entry path and quit
+  K, Up      Select above entry in list
+  J, Down    Select below entry in list
+  H, Left    Step into directory
+  L, Right   Step back to parent directory
+  Q          Quit without printing anything
+  R          Refresh entry list
 
 Will default to current working directory if no path is provided
 ```

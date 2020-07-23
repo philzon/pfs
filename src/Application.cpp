@@ -162,13 +162,13 @@ void Application::usage()
 	std::cout << "  -v   Print version and quit\n";
 	std::cout << "\n";
 	std::cout << "Navigation:\n";
-	std::cout << "  Return   Print entry path and quit\n";
-	std::cout << "  Up       Select above entry in list\n";
-	std::cout << "  Down     Select below entry in list\n";
-	std::cout << "  Left     Step into directory\n";
-	std::cout << "  Right    Step back to parent directory\n";
-	std::cout << "  Q        Quit without printing anything\n";
-	std::cout << "  R        Refresh entry list\n";
+	std::cout << "  Return     Print entry path and quit\n";
+	std::cout << "  K, Up      Select above entry in list\n";
+	std::cout << "  J, Down    Select below entry in list\n";
+	std::cout << "  H, Left    Step into directory\n";
+	std::cout << "  L, Right   Step back to parent directory\n";
+	std::cout << "  Q          Quit without printing anything\n";
+	std::cout << "  R          Refresh entry list\n";
 	std::cout << "\n";
 	std::cout << "Will default to current working directory if no path is provided\n";
 }
