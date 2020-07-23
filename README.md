@@ -74,7 +74,6 @@ Will default to current working directory if no path is provided
 
 Here are some known issues:
 
-* Colors are forced, and if the terminal does not support them, it will not start.
 * Application will crash when attempting to step into a directory which the user does not have rights to.
 * Windows and OSX have not been tested - it is unknown whether it even compiles.
 
