@@ -27,6 +27,7 @@ public:
 
 private:
 	void parse(const std::vector<std::string> &options);
+	bool validate(const std::filesystem::path &path);
 	void usage();
 	void version();
 	void input(int ch);

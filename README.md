@@ -76,7 +76,6 @@ Here are some known issues:
 
 * Colors are forced, and if the terminal does not support them, it will not start.
 * Application will crash when attempting to step into a directory which the user does not have rights to.
-* Flag `-m` does not validate its path, which could result in a crash.
 * Windows and OSX have not been tested - it is unknown whether it even compiles.
 
 **Note:** If a crash were to happen, open the application again and quit to fully terminate ncurses which restores your terminal's proper state.

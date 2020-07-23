@@ -118,6 +118,9 @@ void Application::parse(const std::vector<std::string> &options)
 		}
 		else if (arg1 == "-m")
 		{
+			if (!validate(arg2))
+				return;
+
 			mMax = std::filesystem::absolute(std::filesystem::canonical(arg2));
 			++i;
 		}
@@ -127,25 +130,31 @@ void Application::parse(const std::vector<std::string> &options)
 		}
 		else
 		{
-			std::filesystem::path path = arg1;
-
-			if (!std::filesystem::exists(path))
-			{
-				std::cout << path << " does not exist\n";
-				mRunning = false;
+			if (!validate(arg1))
 				return;
-			}
 
-			if (!std::filesystem::is_directory(path))
-			{
-				std::cout << path << " is not a directory\n";
-				mRunning = false;
-				return;
-			}
-
-			mCWD = std::filesystem::directory_entry(std::filesystem::absolute(std::filesystem::canonical(path)));
+			mCWD = std::filesystem::directory_entry(std::filesystem::absolute(std::filesystem::canonical(arg1)));
 		}
 	}
+}
+
+bool Application::validate(const std::filesystem::path &path)
+{
+	if (!std::filesystem::exists(path))
+	{
+		std::cout << path << " does not exist\n";
+		mRunning = false;
+		return false;
+	}
+
+	if (!std::filesystem::is_directory(path))
+	{
+		std::cout << path << " is not a directory\n";
+		mRunning = false;
+		return false;
+	}
+
+	return true;
 }
 
 void Application::usage()
